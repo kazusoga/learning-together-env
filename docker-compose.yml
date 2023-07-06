@@ -1,8 +1,27 @@
 version: "3.8"
 
+volumes:
+  learning-together-socket-volume: # appコンテナとwebコンテナで共用
+    name: learning-together-socket
+    driver: local
+
 services:
+  web:
+    build:
+      context: ./infra/docker/nginx
+    ports:
+      - 5000:80
+    volumes:
+      - learning-together-socket-volume:/var/run/php-fpm
+      - ./infra/docker/nginx/logs:/var/log/nginx
+      - ./app:/work/app
+    extra_hosts:
+      - host.docker.internal:host-gateway
   app:
     build:
       context: ./infra/docker/php
     volumes:
       - ./app:/work/app
+      - learning-together-socket-volume:/var/run/php-fpm
+    extra_hosts:
+      - host.docker.internal:host-gateway

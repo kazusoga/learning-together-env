@@ -1,1 +1,2 @@
 /infra/docker/nginx/logs
+/infra/docker/mysql/data

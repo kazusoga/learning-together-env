@@ -25,3 +25,16 @@ services:
       - learning-together-socket-volume:/var/run/php-fpm
     extra_hosts:
       - host.docker.internal:host-gateway
+  db:
+    image: mysql:8.0.28
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: learning_together
+      MYSQL_USER: learning_together
+      MYSQL_PASSWORD: learning_together
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./infra/docker/mysql/data:/var/lib/mysql
+      - ./infra/docker/mysql/conf.d:/etc/mysql/conf.d

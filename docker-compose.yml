@@ -38,3 +38,16 @@ services:
     volumes:
       - ./infra/docker/mysql/data:/var/lib/mysql
       - ./infra/docker/mysql/conf.d:/etc/mysql/conf.d
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: learning_together
+      PMA_PASSWORD: learning_together
+      TZ: "Asia/Tokyo"
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    extra_hosts:
+      - host.docker.internal:host-gateway
